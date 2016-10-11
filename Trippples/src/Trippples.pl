@@ -1,0 +1,1 @@
+func:- write('Hello World').

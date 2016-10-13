@@ -8,16 +8,21 @@ run:-
 	write('\t\t#############################################'), nl, nl,
 	write('\t\t####              TRIPPLES              ####'), nl, nl,
 	write('\t\t#############################################'), nl, nl,
-	readPlay.
+	board(T), displayBoard(T).
 
-board([[finishSquare, 0, 0, 0, 0, 0, 0, finishCircle],
-	   [0, 0, 0, 0, 0, 0, 0, 0],
-	   [0, 0, 0, 0, 0, 0, 0, 0],
-	   [0, 0, 0, 0, 0, 0, 0, 0],
-	   [0, 0, 0, 0, 0, 0, 0, 0],
-	   [0, 0, 0, 0, 0, 0, 0, 0],
-	   [0, 0, 0, 0, 0, 0, 0, 0],
-	   [startSquare, 0, 0, 0, 0, 0, 0, startCircle]]).
+board([[0, 1, 2, 3, 4, 5, 6, 7, 8],
+	   [1, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [2, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [3, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [4, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [5, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [6, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [7, 0, 0, 0, 0, 0, 0, 0, 0],
+	   [8, 0, 0, 0, 0, 0, 0, 0, 0]]).
+
+
+% Game tiles
+tile([[\, /], [' ',\]]).
 
 translate(startSquare):-
 	write('D').
@@ -31,27 +36,26 @@ translate(finishSquare):-
 translate(finishCircle):-
 	write('@').
 
-
-/*
-print_line([Cell | Rest]):-
-    translate(Cell, PrintCell),
-    write(PrintCell),
-    print_line(Rest).*/
-
+printLine:-
+	write('------------------').
 
 % Prints game board
 displayBoard([]).
 
 displayBoard([L|Ls]):- 
-	displayLine(L), nl,
+	displayRow(L), nl,
+	printa,
 	displayBoard(Ls).
 
 % Prints a line of the game board
-displayLine([]).
+displayRow([]).
 
-displayLine([C|Cs]):-
+displayRow([C]):-write(C), write('|').
+
+displayRow([C|Cs]):-
 	write(C),
-	displayLine(Cs).
+	write('|'),
+	displayRow(Cs).
 
 
 readPlay:-

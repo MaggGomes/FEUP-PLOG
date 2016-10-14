@@ -1,0 +1,10 @@
+% Game tiles
+translate(0, 1):- write('A11').
+translate(0, 2):- write('A22').
+translate(0, 3):- write('A33').
+translate(1, 1):- write('B11').
+translate(1, 2):- write('B22').
+translate(1, 3):- write('B33').
+translate(2, 1):- write('C11').
+translate(2, 2):- write('C11').
+translate(2, 3):- write('C11').

@@ -61,38 +61,16 @@ printTopBorder:-
 displayCell([T, P], R):-
     translate(T, P, R).
 
-displayRowA([]).
+displayRow([], _).
 
-displayRowA([C]):-
-	displayCell(C, 1),
+displayRow([C], R):-
+	displayCell(C, R),
 	printBorder.
 
-displayRowA([C|Cs]):-
-    displayCell(C, 1),
+displayRow([C|Cs], R):-
+    displayCell(C, R),
 	printColSeparator,
-	displayRowA(Cs).
-
-displayRowB([]).
-
-displayRowB([C]):-
-	displayCell(C, 2),
-	printBorder.
-
-displayRowB([C|Cs]):-
-	displayCell(C, 2),
-	printColSeparator,
-	displayRowB(Cs).
-
-displayRowC([]).
-
-displayRowC([C]):-
-	displayCell(C, 3),
-	printBorder.
-
-displayRowC([C|Cs]):-
-	displayCell(C, 3),
-	printColSeparator,
-	displayRowC(Cs).
+	displayRow(Cs, R).
 
 % Prints the game board
 startBoard(T):-
@@ -102,36 +80,37 @@ startBoard(T):-
 displayBoard([T], N):-
     X is N+1,
     write('#   |'),
-	displayRowA(T), nl,
+	displayRow(T, 1), nl,
     write('# '),
     write(X),
     write(' |'),
-	displayRowB(T), nl,
+	displayRow(T, 2), nl,
     write('#   |'),    
-	displayRowC(T), nl,
+	displayRow(T, 3), nl,
 	printDownBorder, nl.
 
 
 displayBoard([T|Ts], N):-
     X is N+1,
     write('#   |'),
-	displayRowA(T), nl,
+	displayRow(T, 1), nl,
     write('# '),
     write(X),
     write(' |'),
-	displayRowB(T), nl,
+	displayRow(T, 2), nl,
     write('#   |'),    
-	displayRowC(T), nl,
+	displayRow(T, 3), nl,
 	printRowSeparator, nl,
 	displayBoard(Ts, X).
-
-
 
 % Game predicates
 
 % Moves the marker of a player to a different tile
-% moveMarker(Player, Tile).
-%gameEnd(G).
+verifyPlace([T|Ts], PosX, PosY).
+placeTile(Player, Tile, [T|Ts], PosX, PosY).
+verifyMove(Player, [T|Ts], PosX, PosY).
+movePlayer(Player, [T|Ts], PosX, PoY).
+gameEnd(G).
 
 
 

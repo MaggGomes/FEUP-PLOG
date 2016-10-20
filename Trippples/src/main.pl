@@ -2,41 +2,28 @@
 :- include('Logic.pl').
 :- include('Interface.pl').
 :- include('Tiles.pl').
+:- dynamic player/3.
 
 run:-
 	write('\33\[2J'), nl,
 	write('\t\t#############################################'), nl, nl,
 	write('\t\t####              TRIPPLES               ####'), nl, nl,
 	write('\t\t#############################################'), nl, nl,
-	endBoard(T), startBoard(T).
+    board(T), player(1, X1, Y1), player(2, X2, Y2), startBoard(T, X1, Y1, X2, Y2).
 
 % Game board
-startingBoard([[[2, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [3, 0]],
-	   [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],[0, 0], [0, 0], [0, 0]],
-	   [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],[0, 0], [0, 0], [0, 0]],
-	   [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],[0, 0], [0, 0], [0, 0]],
-	   [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],[0, 0], [0, 0], [0, 0]],
-	   [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],[0, 0], [0, 0], [0, 0]],
-	   [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],[0, 0], [0, 0], [0, 0]],
-       [[4, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [1, 0]]]).
+board([[2, 5, 6, 7, 8, 9, 10, 3],
+       [11, 12, 13, 14, 15, 16, 17, 18],
+       [19, 20, 21, 22, 23, 24, 25, 26],
+       [27, 28, 29, 0, 30, 44, 31, 32],
+       [33, 34, 35, 0, 0, 36, 37, 38],
+       [39, 40, 41, 42, 43, 0, 45, 46],
+       [47, 48, 49, 50, 51, 52, 53, 54],
+       [4, 55, 56, 57, 58, 59, 60, 1]]).
 
-intermediateBoard([[[2, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [3, 0]],
-       [[11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17,0], [18, 0]],
-       [[19, 0], [20, 1], [21, 0], [22, 0], [23, 0], [24, 0], [25, 0], [26, 0]],
-       [[27, 0], [28, 0], [29, 0], [0, 0], [30, 0], [44, 0], [31, 0], [32, 0]],
-       [[33, 0], [34, 0], [35, 0], [0, 0], [0, 0], [36, 0], [37, 0], [38, 0]],
-       [[39, 0], [40, 0], [41, 0], [42, 0], [43, 0], [0, 0], [45, 0], [46, 0]],
-       [[47, 0], [48, 2], [49, 0], [50, 0], [51, 0], [52, 0], [53, 0], [54, 0]],
-       [[4, 0], [55, 0], [56, 0], [57, 0], [58, 0], [59, 0], [60, 0], [1, 0]]]).
-
-endBoard([[[2, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [3, 0]],
-       [[11, 0], [12, 0], [13, 0], [14, 0], [15, 0], [16, 0], [17,0], [18, 0]],
-       [[19, 0], [20, 0], [21, 0], [22, 0], [23, 0], [24, 0], [25, 0], [26, 0]],
-       [[27, 0], [28, 0], [29, 0], [0, 0], [30, 0], [44, 2], [31, 0], [32, 0]],
-       [[33, 0], [34, 0], [35, 0], [0, 0], [0, 0], [36, 0], [37, 0], [38, 0]],
-       [[39, 0], [40, 0], [41, 0], [42, 0], [43, 0], [0, 0], [45, 0], [46, 0]],
-       [[47, 0], [48, 0], [49, 0], [50, 0], [51, 0], [52, 0], [53, 0], [54, 0]],
-       [[4, 0], [55, 0], [56, 0], [57, 0], [58, 0], [59, 0], [60, 0], [1, 1]]]).
+% Predicate with the position of players
+player(1, 3, 5).
+player(2, 7, 5).
 
 printRowSeparator:-
 	write('#-----------------------------------#').
@@ -57,60 +44,106 @@ printTopBorder:-
     write('#   |   |   |   |   |   |   |   |   #'), nl,
     printRowSeparator, nl.
 
-% Prints a line of the game board
-displayCell([T, P], R):-
-    translate(T, P, R).
+%criar predicado que faça automaticamente isto
+%retract(position(+, _, _)), assert(position(+, 2, 1)).
 
-displayRow([], _).
 
-displayRow([C], R):-
-	displayCell(C, R),
-	printBorder.
-
-displayRow([C|Cs], R):-
-    displayCell(C, R),
-	printColSeparator,
-	displayRow(Cs, R).
-
-% Prints the game board
-startBoard(T):-
+startBoard(T, X1, Y1, X2, Y2):-
 	printTopBorder,
-	displayBoard(T, 0).
+	displayBoard(T, 1, X1, Y1, X2, Y2).
 
-displayBoard([T], N):-
-    X is N+1,
+printPlayerCell(Line, Col, X1, Y1, _, _, _):-
+    Line == X1,
+    Col == Y1,
+    write('+').
+
+printPlayerCell(Line, Col, _, _, X2, Y2, _):-
+    Line == X2,
+    Col == Y2,    
+    write('x').
+
+printPlayerCell(_, _, _, _, _, _, MidCenter):-  
+    write(MidCenter).
+
+printCellLine(X, Y, Z):-
+    write(X), write(Y), write(Z).
+
+displayTop([]).
+
+displayTop([C]):-
+    tile(C, _, TopLeft, TopCenter, TopRight, _, _, _, _, _, _),    
+    printCellLine(TopLeft, TopCenter, TopRight),
+    printBorder, nl.
+
+displayTop([C|Cs]):-
+    tile(C, _, TopLeft, TopCenter, TopRight, _, _, _, _, _, _),
+    printCellLine(TopLeft, TopCenter, TopRight),
+    printColSeparator, 
+    displayTop(Cs).
+
+displayMid([C], Line, Col, X1, Y1, X2, Y2):-
+    tile(C, _, _, _, _, MidLeft, MidCenter, MidRight, _, _, _),
+    write(MidLeft),
+    printPlayerCell(Line, Col, X1, Y1, X2, Y2, MidCenter),
+    write(MidRight),
+    printBorder, nl.
+
+displayMid([C|Cs], Line, Col, X1, Y1, X2, Y2):-
+    tile(C, _, _, _, _, MidLeft, MidCenter, MidRight, _, _, _),
+    write(MidLeft),
+    printPlayerCell(Line, Col, X1, Y1, X2, Y2, MidCenter),
+    write(MidRight),
+    printColSeparator,
+    NextCol is Col + 1,
+    displayMid(Cs, Line, NextCol, X1, Y1, X2, Y2).
+
+displayBottom([]).
+
+displayBottom([C]):-
+    tile(C, _, _, _, _, _, _, _, BottomLeft, BottomCenter, BottomRight),
+    printCellLine(BottomLeft, BottomCenter, BottomRight), 
+    printBorder, nl.
+
+displayBottom([C|Cs]):-
+    tile(C, _, _, _, _, _, _, _, BottomLeft, BottomCenter, BottomRight),
+    printCellLine(BottomLeft, BottomCenter, BottomRight),
+    printColSeparator,
+    displayBottom(Cs).
+
+displayBoard([], _, _, _, _, _).
+
+displayBoard([T], Line, X1, Y1, X2, Y2):-    
     write('#   |'),
-	displayRow(T, 1), nl,
+    displayTop(T),
     write('# '),
-    write(X),
+    write(Line),
     write(' |'),
-	displayRow(T, 2), nl,
-    write('#   |'),    
-	displayRow(T, 3), nl,
-	printDownBorder, nl.
-
-
-displayBoard([T|Ts], N):-
-    X is N+1,
+    displayMid(T, Line, 1, X1, Y1, X2, Y2),
     write('#   |'),
-	displayRow(T, 1), nl,
-    write('# '),
-    write(X),
-    write(' |'),
-	displayRow(T, 2), nl,
+    displayBottom(T),
+    printDownBorder.
+
+displayBoard([T|Ts], Line, X1, Y1, X2, Y2):-        
     write('#   |'),    
-	displayRow(T, 3), nl,
-	printRowSeparator, nl,
-	displayBoard(Ts, X).
+    displayTop(T),
+    write('# '),
+    write(Line),
+    write(' |'),
+    displayMid(T, Line, 1, X1, Y1, X2, Y2),
+    write('#   |'),
+    displayBottom(T),
+    printRowSeparator, nl,  
+    NextLine is Line+1,      
+    displayBoard(Ts, NextLine, X1, Y1, X2, Y2).
 
 % Game predicates
 
 % Moves the marker of a player to a different tile
-verifyPlace([T|Ts], PosX, PosY).
-placeTile(Player, Tile, [T|Ts], PosX, PosY).
-verifyMove(Player, [T|Ts], PosX, PosY).
-movePlayer(Player, [T|Ts], PosX, PoY).
-gameEnd(G).
+%verifyPlace([T|Ts], PosX, PosY).
+%placeTile(Player, Tile, [T|Ts], PosX, PosY).
+%verifyMove(Player, [T|Ts], PosX, PosY).
+%movePlayer(Player, [T|Ts], PosX, PoY).
+%gameEnd(G).
 
 
 

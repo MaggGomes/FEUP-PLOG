@@ -34,7 +34,6 @@ player(1, 1, 1, 1, 8).
 player(2, 8, 1, 8, 8).
 
 %%%%%%%%%% Starts a new game %%%%%%%%%%
-
 % There are 4 different modes of game:
 % - Mode 1: Human vs Human
 % - Mode 2: Human vs Computer lvl Begginer
@@ -47,7 +46,7 @@ startGame(Mode):-
 	updateBoard(T),
 	playFirstMove(T),
 	updateBoard(T), 
-	updateGame(T, 2, 1).
+	updateGame(T, 2, 1, Mode).
 
 %%%%%%%%%% Predicates to update the game cycle %%%%%%%%%%
 % Player 1 makes the first play in the game
@@ -56,58 +55,61 @@ playFirstMove(T):-
 
 % Updates the game
 % Predicate that updates the game Human vs Human
-updateGame(_, _, _):-
+updateGame(_, _, _, _):-
 	gameOver(Winner),							
 	resetPlayersPosition,
 	write('\n\nThe game is over!\n\n\n'),
 	format('The winner of the game is Player ~w! ~n', [Winner]),
 	pressAnyKeyToContinue, !, run.
 
-updateGame(T, P1, P2):-
-	playerInput(T, P1, P2),	
+updateGame(T, P1, P2, Mode):-
+	movePlayer(T, P1, P2, Mode),	
 	updateBoard(T),
-	updateGame(T, P2, P1).
+	updateGame(T, P2, P1, Mode).
 
+% Predicate to move a player marker
+% Human vs Human
+movePlayer(T, P1, P2, Mode):-
+	Mode =:= 1,
+	playerInput(T, P1, P2, Mode), !.
 
+% Human vs Computer level begginer
+movePlayer(T, P1, P2, Mode):-
+	Mode =:= 2,
+	P1 =:= 1,
+	playerInput(T, P1, P2, Mode), !.
 
+movePlayer(T, P1, P2, Mode):-
+	Mode =:= 2,
+	P1 =:= 2,
+	generateCompPlay(T, P1, P2, Mode), !.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-% Predicate that updates the game Human vs Computer
-updateGameHumanVsComp(_, _, _):-
-	gameOver(Winner),							
-	resetPlayersPosition,
-	write('\n\nThe game is over!\n\n\n'),
-	format('The winner of the game is Player ~w! ~n', [Winner]),
-	pressAnyKeyToContinue, !, run.
-
-updateGameHumanVsComp(T, P1, P2):-
-	movePlayer(T, P1, P2),	
-	updateBoard(T),
-	updateGame(T, P2, P1).
-
-%%%%%%%%%%%%%%%%%%%%% USAR PARAMETRO MODE PARA SE USAR APENAS UM CICLO DE JOGO
+% Human vs Computer level Advanced
 movePlayer(T, P1, P2, Mode):-
 	Mode =:= 3,
 	P1 =:= 1,
-	playerInput(T, P1, P2), !.
+	playerInput(T, P1, P2, Mode), !.
 
-movePlayer(T, P1, P2):-
-	P1 =:= 1,
-	generateCompPlay(T, P1, P2).
+movePlayer(T, P1, P2, Mode):-
+	Mode =:= 3,
+	P1 =:= 2,
+	generateCompPlay(T, P1, P2, Mode), !.
 
+% Computer vs Computer
+movePlayer(T, P1, P2, Mode):-
+	Mode =:= 4,
+	generateCompPlay(T, P1, P2, Mode), !.
 
-generateCompPlay(T, P1, P2):-
-	random(1, 9, Line),
-	random(1, 9, Col).
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Generates a play for the computer
+generateCompPlay(T, P1, P2, Mode):-
+	player(P1, P1Line, P1Col, _, _),
+	LineMin is P1Line-1,
+	LineMax is P1Line+2,
+	ColMin is P1Col-1,
+	ColMax is P1Col+2,
+	random(LineMin, LineMax, Line),
+	random(ColMin, ColMax, Col),
+	checkMove(T, P1, P2, Line, Col, Mode).
 
 
 
@@ -128,7 +130,7 @@ checkFirstMove(T, P, _, _):-
     write('\nWrong play. Please try again!\n'),
     playerInput(T, P), !.
 
-checkMove(T, P1, P2, Line, Col):-
+checkMove(T, P1, P2, Line, Col, Mode):-
     integer(Line),
     integer(Col),
     player(P1, P1Line, P1Col, _, _),
@@ -138,83 +140,83 @@ checkMove(T, P1, P2, Line, Col):-
     (Line-P1Line)=<1, (P1Line-Line)=<1, (Col-P1Col)=<1, (P1Col-Col)=<1, 
     getCell(T, Line, Col, Element),
 	Element =\= 0, !,                           % Player can not move to a blank cell
-    validMove(T, P1, P2, Line, Col).
+    validMove(T, P1, P2, Line, Col, Mode).
 
-checkMove(T, P1, P2, _, _):-
+checkMove(T, P1, P2, _, _, Mode):-
     write('\nWrong play. Please try again!\n'),
-    playerInput(T, P1, P2), !.
+    movePlayer(T, P1, P2, Mode), !.
 
 %%%%%%%%%% Player moves %%%%%%%%%%
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P2, P2Line, P2Col, _, _),
 	Line =:= P2Line, Col =:= P2Col, 				% Player can not move to an occupied cell
 	write('\nWrong play. Please try again!\n'), !,
 	playerInput(T, P1, P2).
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line < P1Line, Col < P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, '\\', _, _, _, _, _, _, _, _),	
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line < P1Line, Col =:= P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, '|', _, _, _, _, _, _, _),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line < P1Line, Col > P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, _, '/', _, _, _, _, _, _),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line =:= P1Line, Col < P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, _, _, '-', _, _, _, _, _),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line =:= P1Line, Col > P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, _, _, _, _, '-', _, _, _),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line > P1Line, Col < P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, _, _, _, _, _, '/', _, _),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line > P1Line, Col =:= P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, _, _, _, _, _, _, '|', _),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, Line, Col):-
+validMove(T, P1, P2, Line, Col, _):-
 	player(P1, P1Line, P1Col, _, _),
 	Line > P1Line, Col > P1Col,
 	getPlayerTile(T, P2, Tile),
 	tile(Tile, _, _, _, _, _, _, _, _, '\\'),
     updatePlayer(P1, Line, Col), nl, !.
 
-validMove(T, P1, P2, _, _):-
+validMove(T, P1, P2, _, _, Mode):-
 	write('\nWrong play. Please try again!\n'), !,
-	playerInput(T, P1, P2).
+	movePlayer(T, P1, P2, Mode).
 
 %%%%%%%%%% Predicate to check if the game is over %%%%%%%%%%
 gameOver(Winner):-
 	player(1, Line, Col, _, _),
-	Line =:= 1, Col =:= 8,
+	Line =:= 3, Col =:= 3,
 	Winner = 1, !.
 
 gameOver(Winner):-
@@ -237,7 +239,7 @@ updatePlayer(P, Line, Col):-
 %%%%%%%%%% Resets the positions of the players to the initial ones %%%%%%%%%%
 resetPlayersPosition:-
 	retract(player(1, _, _, Line1, Col1)), assert(player(1, 1, 1, Line1, Col1)),
-	retract(player(2, _, _, Line2, Col2)), assert(player(2, 8, 2, Line2, Col2)).
+	retract(player(2, _, _, Line2, Col2)), assert(player(2, 8, 1, Line2, Col2)).
 
 %%%%%%%%%% Predicates set e get for board manipulation %%%%%%%%%%
 % Sets a new element in the board

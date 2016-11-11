@@ -134,12 +134,12 @@ playerInput(T, P):-
     cleanBuffer,
     checkFirstMove(T, P, Line, Col).
 
-playerInput(T, P1, P2):-
+playerInput(T, P1, P2, Mode):-
     nl, write('PLAYER '), write(P1), nl,
     write('Horizontal coordinate:'), read(Col),
     write('Vertical coordinate'), read(Line),
     cleanBuffer,
-    checkMove(T, P1, P2, Line, Col).
+    checkMove(T, P1, P2, Line, Col, Mode).
 
 %%%%%%%%%% Displays game title %%%%%%%%%%
 % Prints the logo of the game

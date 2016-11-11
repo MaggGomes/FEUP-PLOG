@@ -1,47 +1,145 @@
+%%%%%%%%%% Menus of the game %%%%%%%%%%
 
-% FALTA VALIDAR INPUT
+% Menu Starting
+menuStartingGame:-
+    displayLogo,
+    write('\n\n\n\n\tWelcome to Trippples!!!\n\n\n\n'),
+    pressAnyKeyToContinue, !, menuOptions.
+
+% Menu Starting Options
+menuOptions:-
+    displayLogo,
+    write('\n\n\n\t1-Start Game\n\n'),
+    write('\n\t2-Exit Game\n\n\n\n'),
+    read(Option),
+    cleanBuffer,    
+    checkMenuOptions(Option).
+
+checkMenuOptions(Option):-
+    integer(Option),
+    Option =:= 1,
+    clearScreen, !,
+    menuGameOptions.
+
+checkMenuOptions(Option):-
+    integer(Option),
+    Option =:= 2,
+    throw('Exiting of Trippples...'), !.
+
+checkMenuOptions(_):-
+    displayLogo,
+    write('\n\n\n\nError: Wrong option. Please try again.\n\n\n\n'),
+    pressAnyKeyToContinue, !,
+    menuOptions.
+
+% Menu Game Options
+menuGameOptions:-
+    displayLogo,
+    write('\n\n\n\t1-Human vs Human\n\n'),
+    write('\n\t2-Human vs Comp\n\n'),
+    write('\n\t3-Comp vs Comp\n\n'),
+    write('\n\t4-Back\n\n'),
+    write('\n\t5-Exit Game\n\n\n\n'),
+    read(Option),
+    cleanBuffer, 
+    checkMenuGameOptions(Option).
+
+checkMenuGameOptions(Option):-
+    integer(Option),
+    Option =:= 1,
+    clearScreen, !,
+    startGame(1).
+
+checkMenuGameOptions(Option):-
+    integer(Option),
+    Option =:= 2,
+    clearScreen, !,
+    menuComputerLevel.
+
+checkMenuGameOptions(Option):-
+    integer(Option),
+    Option =:= 3,
+    clearScreen, !,
+    startGame(4).
+
+checkMenuGameOptions(Option):-
+    integer(Option),
+    Option =:= 4,
+    clearScreen, !,
+    menuOptions.
+
+checkMenuGameOptions(Option):-
+    integer(Option),
+    Option =:= 5,
+    throw('Exiting of Trippples...'), !.
+
+checkMenuGameOptions(_):-
+    displayLogo,
+    write('\n\n\n\n\tWrong option. Please try again.\n\n\n\n'),
+    pressAnyKeyToContinue, !,
+    menuGameOptions.
+
+checkGameMenuOptions(_):-
+    displayLogo,
+    write('\n\n\n\n\tWrong option. Please try again.\n\n\n\n'),
+    pressAnyKeyToContinue, !,
+    menuGameOptions.
+
+% Menu to chose the Computer level
+menuComputerLevel:-
+    displayLogo,
+    write('\n\n\n\t1-Begginer\n\n'),
+    write('\n\t2-Advanced\n\n'),
+    write('\n\t3-Back\n\n'),
+    write('\n\t4-Exit Game\n\n\n\n'),
+    read(Option),
+    cleanBuffer, 
+    checkMenuComputerLevel(Option).
+
+checkMenuComputerLevel(Option):-
+    integer(Option),
+    Option =:= 1,
+    clearScreen, !,
+    startGame(2).
+
+checkMenuComputerLevel(Option):-
+    integer(Option),
+    Option =:= 2,
+    clearScreen, !,
+    startGame(3).
+
+checkMenuComputerLevel(Option):-
+    integer(Option),
+    Option =:= 3,
+    clearScreen, !,
+    menuGameOptions.
+
+checkMenuComputerLevel(Option):-
+    integer(Option),
+    Option =:= 4,
+    throw('Exiting of Trippples...'), !.
+
+checkMenuComputerLevel(_):-
+    displayLogo,
+    write('\n\n\n\n\tWrong option. Please try again.\n\n\n\n'),
+    pressAnyKeyToContinue, !,
+    menuComputerLevel.
 
 %%%%%%%%%% Gets player input %%%%%%%%%%
 % Ask the user new marker position
-playerInput(P):-
+playerInput(T, P):-
     nl, write('PLAYER '), write(P), nl,
     write('Horizontal coordinate:'), read(Col),
     write('Vertical coordinate'), read(Line),
-    checkFirstMove(P, Line, Col).
+    cleanBuffer,
+    checkFirstMove(T, P, Line, Col).
 
-playerInput(P1, P2):-
+playerInput(T, P1, P2):-
     nl, write('PLAYER '), write(P1), nl,
     write('Horizontal coordinate:'), read(Col),
     write('Vertical coordinate'), read(Line),
-    checkMove(P1, P2, Line, Col).
-
-% Check validaty of player input
-checkFirstMove(P, Line, Col):-
-    player(P, PLine, PCol, _, _),
-    \+((Line =:= PLine, Col =:= PCol)),
-    Line > 0, Line < 9, Col > 0, Col < 9,
-    (Line-PLine)=<1, (PLine-Line)=<1, (Col-PCol)=<1, (PCol-Col)=<1, 
-    board(T),
-    getCell(T, Line, Col, Element),
-	Element =\= 0,
-    updatePlayer(P, Line, Col).
-
-checkFirstMove(P, _, _):-
-    write('\nWrong play. Please try again!\n'),
-    playerInput(P), !.
-
-checkMove(P1, P2, Line, Col):-
-    player(P1, P1Line, P1Col, _, _),
-    Line > 0, Line < 9, Col > 0, Col < 9,
-    (Line-P1Line)=<1, (P1Line-Line)=<1, (Col-P1Col)=<1, (P1Col-Col)=<1, 
-    board(T),
-    getCell(T, Line, Col, Element),
-	Element =\= 0,
-    valideMove(T, P1, P2, Line, Col).
-
-checkMove(P1, P2, _, _):-
-    write('\nWrong play. Please try again!\n'),
-    playerInput(P1, P2), !.   
+    cleanBuffer,
+    checkMove(T, P1, P2, Line, Col).
 
 %%%%%%%%%% Displays game title %%%%%%%%%%
 % Prints the logo of the game

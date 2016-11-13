@@ -48,7 +48,7 @@ checkMenuGameOptions(Option):-
     integer(Option),
     Option =:= 1,
     clearScreen, !,
-    startGame(1).
+    createGame(1).
 
 checkMenuGameOptions(Option):-
     integer(Option),
@@ -60,7 +60,7 @@ checkMenuGameOptions(Option):-
     integer(Option),
     Option =:= 3,
     clearScreen, !,
-    startGame(4).
+    createGame(4).
 
 checkMenuGameOptions(Option):-
     integer(Option),
@@ -100,13 +100,13 @@ checkMenuComputerLevel(Option):-
     integer(Option),
     Option =:= 1,
     clearScreen, !,
-    startGame(2).
+    createGame(2).
 
 checkMenuComputerLevel(Option):-
     integer(Option),
     Option =:= 2,
     clearScreen, !,
-    startGame(3).
+    createGame(3).
 
 checkMenuComputerLevel(Option):-
     integer(Option),
@@ -127,12 +127,12 @@ checkMenuComputerLevel(_):-
 
 %%%%%%%%%% Gets player input %%%%%%%%%%
 % Ask the user new marker position
-playerInput(T, P):-
+playerInput(Mode, T, P):-
     nl, write('PLAYER '), write(P), nl,
     write('Horizontal coordinate:'), read(Col),
     write('Vertical coordinate'), read(Line),
     cleanBuffer,
-    checkFirstMove(T, P, Line, Col).
+    checkFirstMove(Mode, T, P, Line, Col).
 
 playerInput(T, P1, P2, Mode):-
     nl, write('PLAYER '), write(P1), nl,

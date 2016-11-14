@@ -376,12 +376,12 @@ validMove(T, P1, P2, _, _, Mode):-
 %%%%%%%%%% Predicate to check if the game is over %%%%%%%%%%
 gameOver(Winner):-
 	player(1, Line, Col, _, _),
-	Line =:= 1, Col =:= 8,
+	Line =:= 8, Col =:= 8,
 	Winner = 1, !.
 
 gameOver(Winner):-
 	player(2, Line, Col, _, _),
-	Line =:= 8, Col =:= 8,
+	Line =:= 1, Col =:= 8,
 	Winner = 2, !.
 
 %%%%%%%%%% Predicate to check if the game in in a tie %%%%%%%%%%

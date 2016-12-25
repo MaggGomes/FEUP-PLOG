@@ -5,1089 +5,165 @@
 %
 \documentclass{llncs}
 %
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{makeidx}  % allows for indexgeneration
+\usepackage{graphicx}
+
 %
+
 \begin{document}
+
 %
 \frontmatter          % for the preliminaries
 %
 \pagestyle{headings}  % switches on printing of running heads
-\addtocmark{Hamiltonian Mechanics} % additional mark in the TOC
 %
-\chapter*{Preface}
+\title{Ano Escolar}
+\subtitle{Resolução de Problemas de Otimização utilizando\\
+Programação em Lógica com Restrições}
 %
-This textbook is intended for use by students of physics, physical
-chemistry, and theoretical chemistry. The reader is presumed to have a
-basic knowledge of atomic and quantum physics at the level provided, for
-example, by the first few chapters in our book {\it The Physics of Atoms
-and Quanta}. The student of physics will find here material which should
-be included in the basic education of every physicist. This book should
-furthermore allow students to acquire an appreciation of the breadth and
-variety within the field of molecular physics and its future as a
-fascinating area of research.
-
-For the student of chemistry, the concepts introduced in this book will
-provide a theoretical framework for that entire field of study. With the
-help of these concepts, it is at least in principle possible to reduce
-the enormous body of empirical chemical knowledge to a few basic
-principles: those of quantum mechanics. In addition, modern physical
-methods whose fundamentals are introduced here are becoming increasingly
-important in chemistry and now represent indispensable tools for the
-chemist. As examples, we might mention the structural analysis of
-complex organic compounds, spectroscopic investigation of very rapid
-reaction processes or, as a practical application, the remote detection
-of pollutants in the air.
-
-\vspace{1cm}
-\begin{flushright}\noindent
-April 1995\hfill Walter Olthoff\\
-Program Chair\\
-ECOOP'95
-\end{flushright}
+\titlerunning{Ano Escolar}  
 %
-\chapter*{Organization}
-ECOOP'95 is organized by the department of Computer Science, Univeristy
-of \AA rhus and AITO (association Internationa pour les Technologie
-Object) in cooperation with ACM/SIGPLAN.
 %
-\section*{Executive Commitee}
-\begin{tabular}{@{}p{5cm}@{}p{7.2cm}@{}}
-Conference Chair:&Ole Lehrmann Madsen (\AA rhus University, DK)\\
-Program Chair:   &Walter Olthoff (DFKI GmbH, Germany)\\
-Organizing Chair:&J\o rgen Lindskov Knudsen (\AA rhus University, DK)\\
-Tutorials:&Birger M\o ller-Pedersen\hfil\break
-(Norwegian Computing Center, Norway)\\
-Workshops:&Eric Jul (University of Kopenhagen, Denmark)\\
-Panels:&Boris Magnusson (Lund University, Sweden)\\
-Exhibition:&Elmer Sandvad (\AA rhus University, DK)\\
-Demonstrations:&Kurt N\o rdmark (\AA rhus University, DK)
-\end{tabular}
 %
-\section*{Program Commitee}
-\begin{tabular}{@{}p{5cm}@{}p{7.2cm}@{}}
-Conference Chair:&Ole Lehrmann Madsen (\AA rhus University, DK)\\
-Program Chair:   &Walter Olthoff (DFKI GmbH, Germany)\\
-Organizing Chair:&J\o rgen Lindskov Knudsen (\AA rhus University, DK)\\
-Tutorials:&Birger M\o ller-Pedersen\hfil\break
-(Norwegian Computing Center, Norway)\\
-Workshops:&Eric Jul (University of Kopenhagen, Denmark)\\
-Panels:&Boris Magnusson (Lund University, Sweden)\\
-Exhibition:&Elmer Sandvad (\AA rhus University, DK)\\
-Demonstrations:&Kurt N\o rdmark (\AA rhus University, DK)
-\end{tabular}
+\author{José Oliveira (up201406208) e Manuel Gomes (up201402679)}
+\authorrunning{José Oliveira e Manuel Gomes}
 %
-\begin{multicols}{3}[\section*{Referees}]
-V.~Andreev\\
-B\"arwolff\\
-E.~Barrelet\\
-H.P.~Beck\\
-G.~Bernardi\\
-E.~Binder\\
-P.C.~Bosetti\\
-Braunschweig\\
-F.W.~B\"usser\\
-T.~Carli\\
-A.B.~Clegg\\
-G.~Cozzika\\
-S.~Dagoret\\
-Del~Buono\\
-P.~Dingus\\
-H.~Duhm\\
-J.~Ebert\\
-S.~Eichenberger\\
-R.J.~Ellison\\
-Feltesse\\
-W.~Flauger\\
-A.~Fomenko\\
-G.~Franke\\
-J.~Garvey\\
-M.~Gennis\\
-L.~Goerlich\\
-P.~Goritchev\\
-H.~Greif\\
-E.M.~Hanlon\\
-R.~Haydar\\
-R.C.W.~Henderso\\
-P.~Hill\\
-H.~Hufnagel\\
-A.~Jacholkowska\\
-Johannsen\\
-S.~Kasarian\\
-I.R.~Kenyon\\
-C.~Kleinwort\\
-T.~K\"ohler\\
-S.D.~Kolya\\
-P.~Kostka\\
-U.~Kr\"uger\\
-J.~Kurzh\"ofer\\
-M.P.J.~Landon\\
-A.~Lebedev\\
-Ch.~Ley\\
-F.~Linsel\\
-H.~Lohmand\\
-Martin\\
-S.~Masson\\
-K.~Meier\\
-C.A.~Meyer\\
-S.~Mikocki\\
-J.V.~Morris\\
-B.~Naroska\\
-Nguyen\\
-U.~Obrock\\
-G.D.~Patel\\
-Ch.~Pichler\\
-S.~Prell\\
-F.~Raupach\\
-V.~Riech\\
-P.~Robmann\\
-N.~Sahlmann\\
-P.~Schleper\\
-Sch\"oning\\
-B.~Schwab\\
-A.~Semenov\\
-G.~Siegmon\\
-J.R.~Smith\\
-M.~Steenbock\\
-U.~Straumann\\
-C.~Thiebaux\\
-P.~Van~Esch\\
-from Yerevan Ph\\
-L.R.~West\\
-G.-G.~Winter\\
-T.P.~Yiou\\
-M.~Zimmer\end{multicols}
-%
-\section*{Sponsoring Institutions}
-%
-Bernauer-Budiman Inc., Reading, Mass.\\
-The Hofmann-International Company, San Louis Obispo, Cal.\\
-Kramer Industries, Heidelberg, Germany
-%
-\tableofcontents
-%
-\mainmatter              % start of the contributions
-%
-\title{Hamiltonian Mechanics unter besonderer Ber\"ucksichtigung der
-h\"ohreren Lehranstalten}
-%
-\titlerunning{Hamiltonian Mechanics}  % abbreviated title (for running head)
-%                                     also used for the TOC unless
-%                                     \toctitle is used
-%
-\author{Ivar Ekeland\inst{1} \and Roger Temam\inst{2}
-Jeffrey Dean \and David Grove \and Craig Chambers \and Kim~B.~Bruce \and
-Elsa Bertino}
-%
-\authorrunning{Ivar Ekeland et al.} % abbreviated author list (for running head)
-%
-%%%% list of authors for the TOC (use if author list has to be modified)
-\tocauthor{Ivar Ekeland, Roger Temam, Jeffrey Dean, David Grove,
-Craig Chambers, Kim B. Bruce, and Elisa Bertino}
-%
-\institute{Princeton University, Princeton NJ 08544, USA,\\
-\email{I.Ekeland@princeton.edu},\\ WWW home page:
-\texttt{http://users/\homedir iekeland/web/welcome.html}
-\and
-Universit\'{e} de Paris-Sud,
-Laboratoire d'Analyse Num\'{e}rique, B\^{a}timent 425,\\
-F-91405 Orsay Cedex, France}
+\institute{FEUP-PLOG, Turma 3MIEIC3, Grupo AnoEscolar3}
 
 \maketitle              % typeset the title of the contribution
 
-\begin{abstract}
-The abstract should summarize the contents of the paper
-using at least 70 and at most 150 words. It will be set in 9-point
-font size and be inset 1.0 cm from the right and left margins.
-There will be two blank lines before and after the Abstract. \dots
-\keywords{computational geometry, graph theory, Hamilton cycles}
+\begin{abstract} %
+No âmbito da unidade curricular de Programação em Lógica desenvolveu-se um programa capaz de gerar a calendarização das atividades avaliativas de uma turma, recorrendo-se à Programação em Lógica com Restrições com auxílio do software \textbf{\textit{SICStus Prolog}}.
+Com efeito, e tendo-se em conta as várias restrições impostas para se gerar uma possível solução do problema, implementaram-se vários predicados de forma a se construir um programa o mais eficiente possível.
+Através da manipulação dos vários predicados construidos, assim como os pertencentes ao \textbf{\textit{SICStus Prolog}}, conseguiu-se não só resolver o problema em específico, mas também de uma forma alargada, com calendarização de várias turmas em simultâneo.
+\\\\
+\textbf{Palavras-chave: }Prolog, Restrições, Ano Escolar
+
 \end{abstract}
 %
-\section{Fixed-Period Problems: The Sublinear Case}
-%
-With this chapter, the preliminaries are over, and we begin the search
-for periodic solutions to Hamiltonian systems. All this will be done in
-the convex case; that is, we shall study the boundary-value problem
-\begin{eqnarray*}
-  \dot{x}&=&JH' (t,x)\\
-  x(0) &=& x(T)
-\end{eqnarray*}
-with $H(t,\cdot)$ a convex function of $x$, going to $+\infty$ when
-$\left\|x\right\| \to \infty$.
+\section{Introdução}
+No âmbito da unidade curricular de Programação em Lógica pretende-se desenvolver um programa capaz de gerar a calendarização das atividades avaliativas de uma turma, recorrendo-se à Programação em Lógica com Restrições com auxílio do software \textbf{\textit{SICStus Prolog}}.
+Este problema consiste na calendarização de um período escolar escolar de uma turma mediante diversas restrições ao nível dos trabalhos de casa (TPCs) assim como dos testes. Por outro lado pretende-se que a solução seja eficiente, pelo que se pretende que a mesma seja extensível a mais do que uma turma, assim como não só a uma variada duração do período escolar, como também diferentes valores para as restrições pretendidas. 
+O presente artigo expõe a estratégia utilizada para resolução do problema, assim como os resultados com ela obtidos.
 
-%
-\subsection{Autonomous Systems}
-%
-In this section, we will consider the case when the Hamiltonian $H(x)$
-is autonomous. For the sake of simplicity, we shall also assume that it
-is $C^{1}$.
 
-We shall first consider the question of nontriviality, within the
-general framework of
-$\left(A_{\infty},B_{\infty}\right)$-subquadratic Hamiltonians. In
-the second subsection, we shall look into the special case when $H$ is
-$\left(0,b_{\infty}\right)$-subquadratic,
-and we shall try to derive additional information.
-%
-\subsubsection{The General Case: Nontriviality.}
-%
-We assume that $H$ is
-$\left(A_{\infty},B_{\infty}\right)$-sub\-qua\-dra\-tic at infinity,
-for some constant symmetric matrices $A_{\infty}$ and $B_{\infty}$,
-with $B_{\infty}-A_{\infty}$ positive definite. Set:
-\begin{eqnarray}
-\gamma :&=&{\rm smallest\ eigenvalue\ of}\ \ B_{\infty} - A_{\infty} \\
-  \lambda : &=& {\rm largest\ negative\ eigenvalue\ of}\ \
-  J \frac{d}{dt} +A_{\infty}\ .
-\end{eqnarray}
+\section{Descrição do Problema}
+O problema em análise é referente à calendarização de um período escolar, com agendamento dos trabalhos de casa (TPC), assim como as datas dos testes. Para resolução do mesmo são implementadas as seguintes restrições:
+\begin{enumerate}
+	\item Em pelo menos um dia por semana, que deve ser o mesmo ao longo do período, não pode haver TPC;
+	\item Cada dia não pode ter TPC em mais do que \textit{NumMaxTPCDay} disciplinas;
+	\item Em cada disciplina só pode haver TPC no máximo em metade das aulas;
+	\item Cada disciplina tem 2 testes por período de aulas, que decorrem num conjunto de semanas específico (mais ou menos a meio e no fim do período);
+	\item Os estudantes não podem ter mais do que \textit{NumMaxTestsWeek} testes per semana);
+	\item Os estudantes não podem ter mais do que um teste em dias consecutivos;
+	\item Os testes realizados pelas diferentes turmas a uma mesma disciplina devem ser o mais próximos possível.
+	
+Deve ser possível resolver o problema como um problema de satisfação de restrições, de modo a que seja possível resolver problemas desta classe com diferentes parâmetros, isto é, fazendo variar o número de turmas e disciplinas, horários, número máximo de TPC por disciplina e por dia, entre outros.
 
-Theorem~\ref{ghou:pre} tells us that if $\lambda +\gamma < 0$, the
-boundary-value problem:
-\begin{equation}
-\begin{array}{rcl}
-  \dot{x}&=&JH' (x)\\
-  x(0)&=&x (T)
-\end{array}
-\end{equation}
-has at least one solution
-$\overline{x}$, which is found by minimizing the dual
-action functional:
-\begin{equation}
-  \psi (u) = \int_{o}^{T} \left[\frac{1}{2}
-  \left(\Lambda_{o}^{-1} u,u\right) + N^{\ast} (-u)\right] dt
-\end{equation}
-on the range of $\Lambda$, which is a subspace $R (\Lambda)_{L}^{2}$
-with finite codimension. Here
-\begin{equation}
-  N(x) := H(x) - \frac{1}{2} \left(A_{\infty} x,x\right)
-\end{equation}
-is a convex function, and
-\begin{equation}
-  N(x) \le \frac{1}{2}
-  \left(\left(B_{\infty} - A_{\infty}\right) x,x\right)
-  + c\ \ \ \forall x\ .
-\end{equation}
+\end{enumerate}
 
-%
-\begin{proposition}
-Assume $H'(0)=0$ and $ H(0)=0$. Set:
-\begin{equation}
-  \delta := \liminf_{x\to 0} 2 N (x) \left\|x\right\|^{-2}\ .
-  \label{eq:one}
-\end{equation}
+\section{Abordagem}
 
-If $\gamma < - \lambda < \delta$,
-the solution $\overline{u}$ is non-zero:
-\begin{equation}
-  \overline{x} (t) \ne 0\ \ \ \forall t\ .
-\end{equation}
-\end{proposition}
-%
-\begin{proof}
-Condition (\ref{eq:one}) means that, for every
-$\delta ' > \delta$, there is some $\varepsilon > 0$ such that
-\begin{equation}
-  \left\|x\right\| \le \varepsilon \Rightarrow N (x) \le
-  \frac{\delta '}{2} \left\|x\right\|^{2}\ .
-\end{equation}
+Por forma a se desenvolver o método o mais adequado à resolução do problema, começou-se por tentar modelar o calendário de um ano escolar como um problema de restrições. Findo este processo, procurou-se entender as variáveis de decisão a utilizar, assim como a forma mais correta de restringir as mesmas, de modo a tornar a solução o mais eficiente quanto possível.
 
-It is an exercise in convex analysis, into which we shall not go, to
-show that this implies that there is an $\eta > 0$ such that
-\begin{equation}
-  f\left\|x\right\| \le \eta
-  \Rightarrow N^{\ast} (y) \le \frac{1}{2\delta '}
-  \left\|y\right\|^{2}\ .
-  \label{eq:two}
-\end{equation}
+\subsection{Variáveis de Decisão}
+
+Para estruturação do problema em análise, e assim para uma mais fácil legibilidade do mesmo, optou-se por construir para cada turma uma lista de listas, sendo que cada lista corresponde a uma diferente disciplina.
+Cada lista de uma disciplina possui um identificador da disciplina, assim como uma lista com os TPC's e outra com os Testes, de tamanho igual ao número de dias do do período. As variáveis de decisão presentes em cada uma das listas podem assumir o valor de 0 (\textit{falso}), ou de 1 (\textit{verdadeiro}), caso se encontre uma ocorrência de um TPC ou teste.
+
+\subsection{Restrições}
+\begin{enumerate}
+
+	\item \textbf{Em pelo menos um dia por semana, que deve ser o mesmo ao longo do período, não pode haver TPC:}\\\\	               
+		De modo a se implementar esta restrição, foi desenvolvido o predicado \textit{freeTPC(+FreeTPCDay, +Class)}, que recebe o dia em que não deve haver TPC, podendo o mesmo oscilar entre 1 e 5 (representativo de um dia da semana), percorrendo a lista de TPC's de cada uma das disciplinas e instanciando as variáveis de decisão correspondentes com o valor de 0 (\textit{falso}).
+		\\
+	\item \textbf{Cada dia não pode ter TPC em mais do que \textit{NumMaxTPCDay} disciplinas:}\\\\	               
+		Para esta restrição foi implementado o predicao \textit{maxNumTPCDay(+Day, +Days, +Class, +NumMaxTPCDay)}, que recebe o número máximo de TPC's para cada dia representado por \textit{NumMaxTPCDay}. São percorridas as listas de TPC's de cada disciplina e criadas uma lista para cada dia com   as variáveis de decisão correspondentes. Por fim, é colocada a restrição de que o somatório de cada uma dessas listas deve ser menor ou igual a \textit{NumMaxTPCDay}.
+		\\
+	\item \textbf{Em cada disciplina só pode haver TPC no máximo em metade das aulas:}\\\\	               
+		Nesta restrição foi implementado o predicado \textit{maxTPCPeriod(+Days, +RatioTPC, +Schedule, +Class)}, o qual recebe a percentagem de máxima das aulas em que pode haver TPC. De modo a implementar esta restrição é determinado primeiramente o número de aulas de cada disciplina ao longo do período escolar, a partir do qual, e utilizando-se \textit{RatioTPC}, é calculado o número de dias máximo para cada disciplina em que pode haver TPC. Por fim é restringindo-se o somatório da lista de TPC's de cada disciplina, de modo a que este seja menor ou igual ao número máximo de TPC's por período respetivo.
+		\\
+	\item \textbf{ Cada disciplina tem dois testes por período de aulas, que decorrem num conjunto de semanas específico (mais ou menos a meio e no fim do período):}\\\\	               
+		Para resolução desta restrição foram utilizados dois predicados. Para a restrição de haverem dois testes por período de aulas foi utilizado o predicado \textit{twoTestsDisciplinePeriod(+Class)}, o qual para cada lista de testes de cada disciplina, restringe o valor da soma dos elementos para que seja igual a 2. Por outro lado, e de modo a solucionar a segunda parte da restrição, foi implementada a restrição \textit{twoDifferentTestMoments(+StartFirstTestMoment, +TestMomentDuration, +StartSecondTestMoment, +Class}, a qual começa primeiro por determinar o começo e duração de cada um dos dois momentos de avaliação. Para tal, é obtido o quociente entre o número de dias correspondente à duração do período escolar e o valor de 4. Este valor de quociente não só corresponderá à duração de cada momento de avaliação, assim como também será utilizado para o cálculo do começo de cada avaliação, sendo que o primeiro período de avaliação ocorrerá durante o segundo quarto do período e o segundo momento de avaliação o último quarto do período.
+		\\
+	\item \textbf{Os estudantes não podem ter mais do que \textit{NumMaxTestsWeek} testes per semana):}\\\\	               
+		De modo a se implementar esta restrição foi desenvolvido o predicado \textit{maxTestsPerWeek(+Day, +Days, +NumMaxTestsWeek, +Class)}, o qual recebe o número máximo possível de testes por semana \textit{NumMaxTestsWeek}. Neste predicado é gerada uma lista para cada semana, com as variáveis de decisão representativas dos dias, a partir de cada uma das listas de testes de cada disciplina. Por fim, restringe-se a que o somatório de cada uma destas listas (semanas) seja menor ou igual a \textit{NumMaxTestsWeek}.
+		\\
+	\item \textbf{Os estudantes não podem ter mais do que um teste em dias consecutivos:}\\\\	               
+		Para a implementação deste predicado foi desenvolvido o predicado \textit{testsConsecutiveDays(+Day, +Days, +Class)}, o qual em cada iteração cria duas listas, cada uma das quais com as variáveis de decisão correspondentes a dois dias diferentes e consecutivos, até que todos os dias do período sejam percorridos.  Por fim é restringido o somatório das duas para que seja menor ou igual a um. Note-se que caso os dois dias consecutivos se tratem de Sexta-feira e Segunda-feira, será possível ter teste nestes dois dias, uma vez que existe o fim-de-semana entre os mesmos.
+		\\
+	\item \textbf{Os testes realizados pelas diferentes turmas a uma mesma disciplina devem ser o mais próximos possível:}\\\\	               
+	Para esta restrição é usado o predicado \textit{testsCloseDays(+Classes, +Test1, +Test2)}, o qual para cada diferente disciplina, tenta restringir a diferença de dias de um teste de uma mesma disciplina, para turmas diferentes, sendo esse valor representado por \textit{Test1}	e \textit{Test2}. Estes valores serão depois minimizados através da estratégia de etiquetagem utilizada com o uso da opção \textit{minimize}.	\\
+		
+	
+
+\end{enumerate} 
+
+\subsection{ Função de Avaliação}
+Para testar e avaliar a solução obtida é usado o predicado \textit{run(+Days, +FreeTPCDay, +NumMaxTPCDay, +RatioTPC, +NumMaxTestsWeek, +ClassResult)}, o qual verifica se o tempo de execução do programa. Por outro lado é neste predicado que é efetuada a restrição que minimiza o tempo entre testes de várias turmas de uma mesma disciplina.
+
+\subsection{Estratégia de Pesquisa}
+Em termos de processo de etiquetagem foi usado o predicado \textit{labeling([ffc, down, minimize(Test1), minimize(Test2), step, time\_out(120000, \_], Result)}, em que \textit{Result} corresponde a todas as varáveis a serem instanciadas.
+É utilizada a estratégia de \textit{first-fail} através de \textit{ffc} em que as variáveis que participam  em mais restrições são etiquetadas primeiro. Por outro lado, através de \textit{down} os elementos de domínio são etiquetados por ordem descendente do seu intervalo de domínio.\\
+Em relação aos \textit{minimize(Test1)} e \textit{minimize(Test2)}, os mesmos são usados de modo a que a solução obtida para as datas dos testes, seja a mais próxima possível para testes de uma mesma disciplina.
+Por fim, a estratégia de \textit{branching} utilizada foi a estratégia padrão do predicado \textit{labeling}, ou seja, foi utilizada a opção \textit{step}.
+
+
+
+
+
+
+\section{Visualização da Solução}
+Para se efetuar a visualização do resultado é utilizado o predicado \textit{displayResults(+Days, +Schedules, +ClassResults)}, o qual recebe as listas com os diferentes horários, assim como os resultados para as distribuições dos TPC's e testes para cada turma.\\
+Este predicado começa por imprimir em modo de texto o horário da turma respetiva através do predicado \textit{displaySchedule(+Day, +Schedule)}, o qual utiliza a variável \textit{Day} instanciada com o valor zero, de modo a ser usada para que se possa imprimir o nome do dia da semana corretamente. Assim, e de forma recursiva, até a lista \textit{Schedule} estar vazia, uma nova variável é instanciada sendo igual ao  valor de \textit{Day}, acrescido de uma unidade.\\
 
 \begin{figure}
-\vspace{2.5cm}
-\caption{This is the caption of the figure displaying a white eagle and
-a white horse on a snow field}
+\centering
+\includegraphics[scale=0.8]{display.png}
+\caption{Exemplo de um resultado de visualização para uma turma}
 \end{figure}
 
-Since $u_{1}$ is a smooth function, we will have
-$\left\|hu_{1}\right\|_\infty \le \eta$
-for $h$ small enough, and inequality (\ref{eq:two}) will hold,
-yielding thereby:
-\begin{equation}
-  \psi (hu_{1}) \le \frac{h^{2}}{2}
-  \frac{1}{\lambda} \left\|u_{1} \right\|_{2}^{2} + \frac{h^{2}}{2}
-  \frac{1}{\delta '} \left\|u_{1}\right\|^{2}\ .
-\end{equation}
+Por fim, é usado o predicado \textit{displayTPCsAndTests(+StatingDay, +EndDay, +ClassResult)}, o qual recebendo os dias inicial e final do período, imprime a calendarização de TPC's e testes para cada turma. Neste predicado, para cada dia do período, é percorrida a lista de disciplinas, sendo usado o predicado \textit{nth0/3} de modo a que, usando o dia do período em questão como índice para as respetivas listas de TPC's e testes, se verifica se para aquele determinado dia existe algum destas ocorrências. Em caso afirmativo é então imprimido o nome da disciplina seguido do tipo de ocorrência.
 
-If we choose $\delta '$ close enough to $\delta$, the quantity
-$\left(\frac{1}{\lambda} + \frac{1}{\delta '}\right)$
-will be negative, and we end up with
-\begin{equation}
-  \psi (hu_{1}) < 0\ \ \ \ \ {\rm for}\ \ h\ne 0\ \ {\rm small}\ .
-\end{equation}
+\section{Resultados}
+Para a obtenção dos resultados, foram efetuadas diversas simulações, com diferentes valores de turmas, disciplinas, assim como duração do período escolar. Deste modo apresentam-se os resultados obtido para 3 e 6 turmas com 3 disciplinas, e fazendo-se variar a duração do período escolar.
 
-On the other hand, we check directly that $\psi (0) = 0$. This shows
-that 0 cannot be a minimizer of $\psi$, not even a local one.
-So $\overline{u} \ne 0$ and
-$\overline{u} \ne \Lambda_{o}^{-1} (0) = 0$. \qed
-\end{proof}
-%
-\begin{corollary}
-Assume $H$ is $C^{2}$ and
-$\left(a_{\infty},b_{\infty}\right)$-subquadratic at infinity. Let
-$\xi_{1},\allowbreak\dots,\allowbreak\xi_{N}$  be the
-equilibria, that is, the solutions of $H' (\xi ) = 0$.
-Denote by $\omega_{k}$
-the smallest eigenvalue of $H'' \left(\xi_{k}\right)$, and set:
-\begin{equation}
-  \omega : = {\rm Min\,} \left\{\omega_{1},\dots,\omega_{k}\right\}\ .
-\end{equation}
-If:
-\begin{equation}
-  \frac{T}{2\pi} b_{\infty} <
-  - E \left[- \frac{T}{2\pi}a_{\infty}\right] <
-  \frac{T}{2\pi}\omega
-  \label{eq:three}
-\end{equation}
-then minimization of $\psi$ yields a non-constant $T$-periodic solution
-$\overline{x}$.
-\end{corollary}
-%
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{grafico1.png}
+\caption{Resultados obtidos para 3 turmas}
+\end{figure}
 
-We recall once more that by the integer part $E [\alpha ]$ of
-$\alpha \in \bbbr$, we mean the $a\in \bbbz$
-such that $a< \alpha \le a+1$. For instance,
-if we take $a_{\infty} = 0$, Corollary 2 tells
-us that $\overline{x}$ exists and is
-non-constant provided that:
+Como seria de esperar, com o aumento da duração do período escolar, assim como do número de turmas o processamento do resultado é mais demorado. No entanto, verifica-se que com o aumento do número de turmas,  o aumento do tempo de processamento é mais rápido do que com o aumento do número de turmas.\\
+Por outro lado, testou-se também com um número variável de disciplinas, tendo-se experimentado o valor de 10 disciplinas. No entanto, não foi possível obter qualquer solulão dentro do tempo de \textit{time\_out} de 120 segundos, pelo que assim se pode verificar que esta variável, a par do número de turmas, são as que mais influênciam a rapidez de obtenção de uma solução para o programa desenvolvido.
 
-\begin{equation}
-  \frac{T}{2\pi} b_{\infty} < 1 < \frac{T}{2\pi}
-\end{equation}
-or
-\begin{equation}
-  T\in \left(\frac{2\pi}{\omega},\frac{2\pi}{b_{\infty}}\right)\ .
-  \label{eq:four}
-\end{equation}
 
-%
-\begin{proof}
-The spectrum of $\Lambda$ is $\frac{2\pi}{T} \bbbz +a_{\infty}$. The
-largest negative eigenvalue $\lambda$ is given by
-$\frac{2\pi}{T}k_{o} +a_{\infty}$,
-where
-\begin{equation}
-  \frac{2\pi}{T}k_{o} + a_{\infty} < 0
-  \le \frac{2\pi}{T} (k_{o} +1) + a_{\infty}\ .
-\end{equation}
-Hence:
-\begin{equation}
-  k_{o} = E \left[- \frac{T}{2\pi} a_{\infty}\right] \ .
-\end{equation}
+\section{Conclusões e Trabalho Futuro}
+Com a realização deste trabalho verifica-se que a linguagem \textit{Prolog}, mais especificamente os seus módulos de resolução com restrições, é bastante poderosa para resolver uma ampla variedade de problemas de decisão e/ou otimização, tal como fui possível constatar com o seu predicado \textit{labeling}.
+\\Em relação à solução obtida para o problema proposto, consideramos que a mesma atingiu de forma satisfatória os objetivos propostos, implementando não só todas as restrições pedidas, como também apresentando os resultados de forma eficiente.
+\\No que diz aos resultados obtidos, verifica-se que o principal fator que leva a um maior tempo de processamento de uma solução é o aumento do número de disciplinas e/ou turmas, pelo que seria neste âmbito que se poderia tentar tornar a solução ainda mais eficiente. Por outro lado, a implementação de novas restrições de forma a tornar o programa desenvolvido ainda mais completo, seria um outro ponto poder ser desenvolvido  em iterações futuras.
 
-The condition $\gamma < -\lambda < \delta$ now becomes:
-\begin{equation}
-  b_{\infty} - a_{\infty} <
-  - \frac{2\pi}{T} k_{o} -a_{\infty} < \omega -a_{\infty}
-\end{equation}
-which is precisely condition (\ref{eq:three}).\qed
-\end{proof}
-%
 
-\begin{lemma}
-Assume that $H$ is $C^{2}$ on $\bbbr^{2n} \setminus \{ 0\}$ and
-that $H'' (x)$ is non-de\-gen\-er\-ate for any $x\ne 0$. Then any local
-minimizer $\widetilde{x}$ of $\psi$ has minimal period $T$.
-\end{lemma}
-%
-\begin{proof}
-We know that $\widetilde{x}$, or
-$\widetilde{x} + \xi$ for some constant $\xi
-\in \bbbr^{2n}$, is a $T$-periodic solution of the Hamiltonian system:
-\begin{equation}
-  \dot{x} = JH' (x)\ .
-\end{equation}
 
-There is no loss of generality in taking $\xi = 0$. So
-$\psi (x) \ge \psi (\widetilde{x} )$
-for all $\widetilde{x}$ in some neighbourhood of $x$ in
-$W^{1,2} \left(\bbbr / T\bbbz ; \bbbr^{2n}\right)$.
 
-But this index is precisely the index
-$i_{T} (\widetilde{x} )$ of the $T$-periodic
-solution $\widetilde{x}$ over the interval
-$(0,T)$, as defined in Sect.~2.6. So
-\begin{equation}
-  i_{T} (\widetilde{x} ) = 0\ .
-  \label{eq:five}
-\end{equation}
-
-Now if $\widetilde{x}$ has a lower period, $T/k$ say,
-we would have, by Corollary 31:
-\begin{equation}
-  i_{T} (\widetilde{x} ) =
-  i_{kT/k}(\widetilde{x} ) \ge
-  ki_{T/k} (\widetilde{x} ) + k-1 \ge k-1 \ge 1\ .
-\end{equation}
-
-This would contradict (\ref{eq:five}), and thus cannot happen.\qed
-\end{proof}
-%
-\paragraph{Notes and Comments.}
-The results in this section are a
-refined version of \cite{clar:eke};
-the minimality result of Proposition
-14 was the first of its kind.
-
-To understand the nontriviality conditions, such as the one in formula
-(\ref{eq:four}), one may think of a one-parameter family
-$x_{T}$, $T\in \left(2\pi\omega^{-1}, 2\pi b_{\infty}^{-1}\right)$
-of periodic solutions, $x_{T} (0) = x_{T} (T)$,
-with $x_{T}$ going away to infinity when $T\to 2\pi \omega^{-1}$,
-which is the period of the linearized system at 0.
-
-\begin{table}
-\caption{This is the example table taken out of {\it The
-\TeX{}book,} p.\,246}
-\begin{center}
-\begin{tabular}{r@{\quad}rl}
-\hline
-\multicolumn{1}{l}{\rule{0pt}{12pt}
-                   Year}&\multicolumn{2}{l}{World population}\\[2pt]
-\hline\rule{0pt}{12pt}
-8000 B.C.  &     5,000,000& \\
-  50 A.D.  &   200,000,000& \\
-1650 A.D.  &   500,000,000& \\
-1945 A.D.  & 2,300,000,000& \\
-1980 A.D.  & 4,400,000,000& \\[2pt]
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-%
-\begin{theorem} [Ghoussoub-Preiss]\label{ghou:pre}
-Assume $H(t,x)$ is
-$(0,\varepsilon )$-subquadratic at
-infinity for all $\varepsilon > 0$, and $T$-periodic in $t$
-\begin{equation}
-  H (t,\cdot )\ \ \ \ \ {\rm is\ convex}\ \ \forall t
-\end{equation}
-\begin{equation}
-  H (\cdot ,x)\ \ \ \ \ {\rm is}\ \ T{\rm -periodic}\ \ \forall x
-\end{equation}
-\begin{equation}
-  H (t,x)\ge n\left(\left\|x\right\|\right)\ \ \ \ \
-  {\rm with}\ \ n (s)s^{-1}\to \infty\ \ {\rm as}\ \ s\to \infty
-\end{equation}
-\begin{equation}
-  \forall \varepsilon > 0\ ,\ \ \ \exists c\ :\
-  H(t,x) \le \frac{\varepsilon}{2}\left\|x\right\|^{2} + c\ .
-\end{equation}
-
-Assume also that $H$ is $C^{2}$, and $H'' (t,x)$ is positive definite
-everywhere. Then there is a sequence $x_{k}$, $k\in \bbbn$, of
-$kT$-periodic solutions of the system
-\begin{equation}
-  \dot{x} = JH' (t,x)
-\end{equation}
-such that, for every $k\in \bbbn$, there is some $p_{o}\in\bbbn$ with:
-\begin{equation}
-  p\ge p_{o}\Rightarrow x_{pk} \ne x_{k}\ .
-\end{equation}
-\qed
-\end{theorem}
-%
-\begin{example} [{{\rm External forcing}}]
-Consider the system:
-\begin{equation}
-  \dot{x} = JH' (x) + f(t)
-\end{equation}
-where the Hamiltonian $H$ is
-$\left(0,b_{\infty}\right)$-subquadratic, and the
-forcing term is a distribution on the circle:
-\begin{equation}
-  f = \frac{d}{dt} F + f_{o}\ \ \ \ \
-  {\rm with}\ \ F\in L^{2} \left(\bbbr / T\bbbz; \bbbr^{2n}\right)\ ,
-\end{equation}
-where $f_{o} : = T^{-1}\int_{o}^{T} f (t) dt$. For instance,
-\begin{equation}
-  f (t) = \sum_{k\in \bbbn} \delta_{k} \xi\ ,
-\end{equation}
-where $\delta_{k}$ is the Dirac mass at $t= k$ and
-$\xi \in \bbbr^{2n}$ is a
-constant, fits the prescription. This means that the system
-$\dot{x} = JH' (x)$ is being excited by a
-series of identical shocks at interval $T$.
-\end{example}
-%
-\begin{definition}
-Let $A_{\infty} (t)$ and $B_{\infty} (t)$ be symmetric
-operators in $\bbbr^{2n}$, depending continuously on
-$t\in [0,T]$, such that
-$A_{\infty} (t) \le B_{\infty} (t)$ for all $t$.
-
-A Borelian function
-$H: [0,T]\times \bbbr^{2n} \to \bbbr$
-is called
-$\left(A_{\infty} ,B_{\infty}\right)$-{\it subquadratic at infinity}
-if there exists a function $N(t,x)$ such that:
-\begin{equation}
-  H (t,x) = \frac{1}{2} \left(A_{\infty} (t) x,x\right) + N(t,x)
-\end{equation}
-\begin{equation}
-  \forall t\ ,\ \ \ N(t,x)\ \ \ \ \
-  {\rm is\ convex\ with\  respect\  to}\ \ x
-\end{equation}
-\begin{equation}
-  N(t,x) \ge n\left(\left\|x\right\|\right)\ \ \ \ \
-  {\rm with}\ \ n(s)s^{-1}\to +\infty\ \ {\rm as}\ \ s\to +\infty
-\end{equation}
-\begin{equation}
-  \exists c\in \bbbr\ :\ \ \ H (t,x) \le
-  \frac{1}{2} \left(B_{\infty} (t) x,x\right) + c\ \ \ \forall x\ .
-\end{equation}
-
-If $A_{\infty} (t) = a_{\infty} I$ and
-$B_{\infty} (t) = b_{\infty} I$, with
-$a_{\infty} \le b_{\infty} \in \bbbr$,
-we shall say that $H$ is
-$\left(a_{\infty},b_{\infty}\right)$-subquadratic
-at infinity. As an example, the function
-$\left\|x\right\|^{\alpha}$, with
-$1\le \alpha < 2$, is $(0,\varepsilon )$-subquadratic at infinity
-for every $\varepsilon > 0$. Similarly, the Hamiltonian
-\begin{equation}
-H (t,x) = \frac{1}{2} k \left\|k\right\|^{2} +\left\|x\right\|^{\alpha}
-\end{equation}
-is $(k,k+\varepsilon )$-subquadratic for every $\varepsilon > 0$.
-Note that, if $k<0$, it is not convex.
-\end{definition}
-%
-
-\paragraph{Notes and Comments.}
-The first results on subharmonics were
-obtained by Rabinowitz in \cite{rab}, who showed the existence of
-infinitely many subharmonics both in the subquadratic and superquadratic
-case, with suitable growth conditions on $H'$. Again the duality
-approach enabled Clarke and Ekeland in \cite{clar:eke:2} to treat the
-same problem in the convex-subquadratic case, with growth conditions on
-$H$ only.
-
-Recently, Michalek and Tarantello (see \cite{mich:tar} and \cite{tar})
-have obtained lower bound on the number of subharmonics of period $kT$,
-based on symmetry considerations and on pinching estimates, as in
-Sect.~5.2 of this article.
-
-%
-% ---- Bibliography ----
-%
 \begin{thebibliography}{5}
 %
-\bibitem {clar:eke}
-Clarke, F., Ekeland, I.:
-Nonlinear oscillations and
-boundary-value problems for Hamiltonian systems.
-Arch. Rat. Mech. Anal. 78, 315--333 (1982)
-
-\bibitem {clar:eke:2}
-Clarke, F., Ekeland, I.:
-Solutions p\'{e}riodiques, du
-p\'{e}riode donn\'{e}e, des \'{e}quations hamiltoniennes.
-Note CRAS Paris 287, 1013--1015 (1978)
-
-\bibitem {mich:tar}
-Michalek, R., Tarantello, G.:
-Subharmonic solutions with prescribed minimal
-period for nonautonomous Hamiltonian systems.
-J. Diff. Eq. 72, 28--55 (1988)
-
-\bibitem {tar}
-Tarantello, G.:
-Subharmonic solutions for Hamiltonian
-systems via a $\bbbz_{p}$ pseudoindex theory.
-Annali di Matematica Pura (to appear)
-
-\bibitem {rab}
-Rabinowitz, P.:
-On subharmonic solutions of a Hamiltonian system.
-Comm. Pure Appl. Math. 33, 609--633 (1980)
-
-\end{thebibliography}
-
-%
-% second contribution with nearly identical text,
-% slightly changed contribution head (all entries
-% appear as defaults), and modified bibliography
-%
-\title{Hamiltonian Mechanics2}
-
-\author{Ivar Ekeland\inst{1} \and Roger Temam\inst{2}}
-
-\institute{Princeton University, Princeton NJ 08544, USA
-\and
-Universit\'{e} de Paris-Sud,
-Laboratoire d'Analyse Num\'{e}rique, B\^{a}timent 425,\\
-F-91405 Orsay Cedex, France}
-
-\maketitle
-%
-% Modify the bibliography environment to call for the author-year
-% system. This is done normally with the citeauthoryear option
-% for a particular contribution.
-\makeatletter
-\renewenvironment{thebibliography}[1]
-     {\section*{\refname}
-      \small
-      \list{}%
-           {\settowidth\labelwidth{}%
-            \leftmargin\parindent
-            \itemindent=-\parindent
-            \labelsep=\z@
-            \if@openbib
-              \advance\leftmargin\bibindent
-              \itemindent -\bibindent
-              \listparindent \itemindent
-              \parsep \z@
-            \fi
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{}}%
-      \if@openbib
-        \renewcommand\newblock{\par}%
-      \else
-        \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
-      \fi
-      \sloppy\clubpenalty4000\widowpenalty4000%
-      \sfcode`\.=\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
-      \def\@cite#1{#1}%
-      \def\@lbibitem[#1]#2{\item[]\if@filesw
-        {\def\protect##1{\string ##1\space}\immediate
-      \write\@auxout{\string\bibcite{#2}{#1}}}\fi\ignorespaces}
-\makeatother
-%
-\begin{abstract}
-The abstract should summarize the contents of the paper
-using at least 70 and at most 150 words. It will be set in 9-point
-font size and be inset 1.0 cm from the right and left margins.
-There will be two blank lines before and after the Abstract. \dots
-\keywords{graph transformations, convex geometry, lattice computations,
-convex polygons, triangulations, discrete geometry}
-\end{abstract}
-%
-\section{Fixed-Period Problems: The Sublinear Case}
-%
-With this chapter, the preliminaries are over, and we begin the search
-for periodic solutions to Hamiltonian systems. All this will be done in
-the convex case; that is, we shall study the boundary-value problem
-\begin{eqnarray*}
-  \dot{x}&=&JH' (t,x)\\
-  x(0) &=& x(T)
-\end{eqnarray*}
-with $H(t,\cdot)$ a convex function of $x$, going to $+\infty$ when
-$\left\|x\right\| \to \infty$.
-
-%
-\subsection{Autonomous Systems}
-%
-In this section, we will consider the case when the Hamiltonian $H(x)$
-is autonomous. For the sake of simplicity, we shall also assume that it
-is $C^{1}$.
-
-We shall first consider the question of nontriviality, within the
-general framework of
-$\left(A_{\infty},B_{\infty}\right)$-subquadratic Hamiltonians. In
-the second subsection, we shall look into the special case when $H$ is
-$\left(0,b_{\infty}\right)$-subquadratic,
-and we shall try to derive additional information.
-%
-\subsubsection{The General Case: Nontriviality.}
-%
-We assume that $H$ is
-$\left(A_{\infty},B_{\infty}\right)$-sub\-qua\-dra\-tic at infinity,
-for some constant symmetric matrices $A_{\infty}$ and $B_{\infty}$,
-with $B_{\infty}-A_{\infty}$ positive definite. Set:
-\begin{eqnarray}
-\gamma :&=&{\rm smallest\ eigenvalue\ of}\ \ B_{\infty} - A_{\infty} \\
-  \lambda : &=& {\rm largest\ negative\ eigenvalue\ of}\ \
-  J \frac{d}{dt} +A_{\infty}\ .
-\end{eqnarray}
-
-Theorem 21 tells us that if $\lambda +\gamma < 0$, the boundary-value
-problem:
-\begin{equation}
-\begin{array}{rcl}
-  \dot{x}&=&JH' (x)\\
-  x(0)&=&x (T)
-\end{array}
-\end{equation}
-has at least one solution
-$\overline{x}$, which is found by minimizing the dual
-action functional:
-\begin{equation}
-  \psi (u) = \int_{o}^{T} \left[\frac{1}{2}
-  \left(\Lambda_{o}^{-1} u,u\right) + N^{\ast} (-u)\right] dt
-\end{equation}
-on the range of $\Lambda$, which is a subspace $R (\Lambda)_{L}^{2}$
-with finite codimension. Here
-\begin{equation}
-  N(x) := H(x) - \frac{1}{2} \left(A_{\infty} x,x\right)
-\end{equation}
-is a convex function, and
-\begin{equation}
-  N(x) \le \frac{1}{2}
-  \left(\left(B_{\infty} - A_{\infty}\right) x,x\right)
-  + c\ \ \ \forall x\ .
-\end{equation}
-
-%
-\begin{proposition}
-Assume $H'(0)=0$ and $ H(0)=0$. Set:
-\begin{equation}
-  \delta := \liminf_{x\to 0} 2 N (x) \left\|x\right\|^{-2}\ .
-  \label{2eq:one}
-\end{equation}
-
-If $\gamma < - \lambda < \delta$,
-the solution $\overline{u}$ is non-zero:
-\begin{equation}
-  \overline{x} (t) \ne 0\ \ \ \forall t\ .
-\end{equation}
-\end{proposition}
-%
-\begin{proof}
-Condition (\ref{2eq:one}) means that, for every
-$\delta ' > \delta$, there is some $\varepsilon > 0$ such that
-\begin{equation}
-  \left\|x\right\| \le \varepsilon \Rightarrow N (x) \le
-  \frac{\delta '}{2} \left\|x\right\|^{2}\ .
-\end{equation}
-
-It is an exercise in convex analysis, into which we shall not go, to
-show that this implies that there is an $\eta > 0$ such that
-\begin{equation}
-  f\left\|x\right\| \le \eta
-  \Rightarrow N^{\ast} (y) \le \frac{1}{2\delta '}
-  \left\|y\right\|^{2}\ .
-  \label{2eq:two}
-\end{equation}
-
-\begin{figure}
-\vspace{2.5cm}
-\caption{This is the caption of the figure displaying a white eagle and
-a white horse on a snow field}
-\end{figure}
-
-Since $u_{1}$ is a smooth function, we will have
-$\left\|hu_{1}\right\|_\infty \le \eta$
-for $h$ small enough, and inequality (\ref{2eq:two}) will hold,
-yielding thereby:
-\begin{equation}
-  \psi (hu_{1}) \le \frac{h^{2}}{2}
-  \frac{1}{\lambda} \left\|u_{1} \right\|_{2}^{2} + \frac{h^{2}}{2}
-  \frac{1}{\delta '} \left\|u_{1}\right\|^{2}\ .
-\end{equation}
-
-If we choose $\delta '$ close enough to $\delta$, the quantity
-$\left(\frac{1}{\lambda} + \frac{1}{\delta '}\right)$
-will be negative, and we end up with
-\begin{equation}
-  \psi (hu_{1}) < 0\ \ \ \ \ {\rm for}\ \ h\ne 0\ \ {\rm small}\ .
-\end{equation}
-
-On the other hand, we check directly that $\psi (0) = 0$. This shows
-that 0 cannot be a minimizer of $\psi$, not even a local one.
-So $\overline{u} \ne 0$ and
-$\overline{u} \ne \Lambda_{o}^{-1} (0) = 0$. \qed
-\end{proof}
-%
-\begin{corollary}
-Assume $H$ is $C^{2}$ and
-$\left(a_{\infty},b_{\infty}\right)$-subquadratic at infinity. Let
-$\xi_{1},\allowbreak\dots,\allowbreak\xi_{N}$  be the
-equilibria, that is, the solutions of $H' (\xi ) = 0$.
-Denote by $\omega_{k}$
-the smallest eigenvalue of $H'' \left(\xi_{k}\right)$, and set:
-\begin{equation}
-  \omega : = {\rm Min\,} \left\{\omega_{1},\dots,\omega_{k}\right\}\ .
-\end{equation}
-If:
-\begin{equation}
-  \frac{T}{2\pi} b_{\infty} <
-  - E \left[- \frac{T}{2\pi}a_{\infty}\right] <
-  \frac{T}{2\pi}\omega
-  \label{2eq:three}
-\end{equation}
-then minimization of $\psi$ yields a non-constant $T$-periodic solution
-$\overline{x}$.
-\end{corollary}
-%
-
-We recall once more that by the integer part $E [\alpha ]$ of
-$\alpha \in \bbbr$, we mean the $a\in \bbbz$
-such that $a< \alpha \le a+1$. For instance,
-if we take $a_{\infty} = 0$, Corollary 2 tells
-us that $\overline{x}$ exists and is
-non-constant provided that:
-
-\begin{equation}
-  \frac{T}{2\pi} b_{\infty} < 1 < \frac{T}{2\pi}
-\end{equation}
-or
-\begin{equation}
-  T\in \left(\frac{2\pi}{\omega},\frac{2\pi}{b_{\infty}}\right)\ .
-  \label{2eq:four}
-\end{equation}
-
-%
-\begin{proof}
-The spectrum of $\Lambda$ is $\frac{2\pi}{T} \bbbz +a_{\infty}$. The
-largest negative eigenvalue $\lambda$ is given by
-$\frac{2\pi}{T}k_{o} +a_{\infty}$,
-where
-\begin{equation}
-  \frac{2\pi}{T}k_{o} + a_{\infty} < 0
-  \le \frac{2\pi}{T} (k_{o} +1) + a_{\infty}\ .
-\end{equation}
-Hence:
-\begin{equation}
-  k_{o} = E \left[- \frac{T}{2\pi} a_{\infty}\right] \ .
-\end{equation}
-
-The condition $\gamma < -\lambda < \delta$ now becomes:
-\begin{equation}
-  b_{\infty} - a_{\infty} <
-  - \frac{2\pi}{T} k_{o} -a_{\infty} < \omega -a_{\infty}
-\end{equation}
-which is precisely condition (\ref{2eq:three}).\qed
-\end{proof}
-%
-
-\begin{lemma}
-Assume that $H$ is $C^{2}$ on $\bbbr^{2n} \setminus \{ 0\}$ and
-that $H'' (x)$ is non-de\-gen\-er\-ate for any $x\ne 0$. Then any local
-minimizer $\widetilde{x}$ of $\psi$ has minimal period $T$.
-\end{lemma}
-%
-\begin{proof}
-We know that $\widetilde{x}$, or
-$\widetilde{x} + \xi$ for some constant $\xi
-\in \bbbr^{2n}$, is a $T$-periodic solution of the Hamiltonian system:
-\begin{equation}
-  \dot{x} = JH' (x)\ .
-\end{equation}
-
-There is no loss of generality in taking $\xi = 0$. So
-$\psi (x) \ge \psi (\widetilde{x} )$
-for all $\widetilde{x}$ in some neighbourhood of $x$ in
-$W^{1,2} \left(\bbbr / T\bbbz ; \bbbr^{2n}\right)$.
-
-But this index is precisely the index
-$i_{T} (\widetilde{x} )$ of the $T$-periodic
-solution $\widetilde{x}$ over the interval
-$(0,T)$, as defined in Sect.~2.6. So
-\begin{equation}
-  i_{T} (\widetilde{x} ) = 0\ .
-  \label{2eq:five}
-\end{equation}
-
-Now if $\widetilde{x}$ has a lower period, $T/k$ say,
-we would have, by Corollary 31:
-\begin{equation}
-  i_{T} (\widetilde{x} ) =
-  i_{kT/k}(\widetilde{x} ) \ge
-  ki_{T/k} (\widetilde{x} ) + k-1 \ge k-1 \ge 1\ .
-\end{equation}
-
-This would contradict (\ref{2eq:five}), and thus cannot happen.\qed
-\end{proof}
-%
-\paragraph{Notes and Comments.}
-The results in this section are a
-refined version of \cite{2clar:eke};
-the minimality result of Proposition
-14 was the first of its kind.
-
-To understand the nontriviality conditions, such as the one in formula
-(\ref{2eq:four}), one may think of a one-parameter family
-$x_{T}$, $T\in \left(2\pi\omega^{-1}, 2\pi b_{\infty}^{-1}\right)$
-of periodic solutions, $x_{T} (0) = x_{T} (T)$,
-with $x_{T}$ going away to infinity when $T\to 2\pi \omega^{-1}$,
-which is the period of the linearized system at 0.
-
-\begin{table}
-\caption{This is the example table taken out of {\it The
-\TeX{}book,} p.\,246}
-\begin{center}
-\begin{tabular}{r@{\quad}rl}
-\hline
-\multicolumn{1}{l}{\rule{0pt}{12pt}
-                   Year}&\multicolumn{2}{l}{World population}\\[2pt]
-\hline\rule{0pt}{12pt}
-8000 B.C.  &     5,000,000& \\
-  50 A.D.  &   200,000,000& \\
-1650 A.D.  &   500,000,000& \\
-1945 A.D.  & 2,300,000,000& \\
-1980 A.D.  & 4,400,000,000& \\[2pt]
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-%
-\begin{theorem} [Ghoussoub-Preiss]
-Assume $H(t,x)$ is
-$(0,\varepsilon )$-subquadratic at
-infinity for all $\varepsilon > 0$, and $T$-periodic in $t$
-\begin{equation}
-  H (t,\cdot )\ \ \ \ \ {\rm is\ convex}\ \ \forall t
-\end{equation}
-\begin{equation}
-  H (\cdot ,x)\ \ \ \ \ {\rm is}\ \ T{\rm -periodic}\ \ \forall x
-\end{equation}
-\begin{equation}
-  H (t,x)\ge n\left(\left\|x\right\|\right)\ \ \ \ \
-  {\rm with}\ \ n (s)s^{-1}\to \infty\ \ {\rm as}\ \ s\to \infty
-\end{equation}
-\begin{equation}
-  \forall \varepsilon > 0\ ,\ \ \ \exists c\ :\
-  H(t,x) \le \frac{\varepsilon}{2}\left\|x\right\|^{2} + c\ .
-\end{equation}
-
-Assume also that $H$ is $C^{2}$, and $H'' (t,x)$ is positive definite
-everywhere. Then there is a sequence $x_{k}$, $k\in \bbbn$, of
-$kT$-periodic solutions of the system
-\begin{equation}
-  \dot{x} = JH' (t,x)
-\end{equation}
-such that, for every $k\in \bbbn$, there is some $p_{o}\in\bbbn$ with:
-\begin{equation}
-  p\ge p_{o}\Rightarrow x_{pk} \ne x_{k}\ .
-\end{equation}
-\qed
-\end{theorem}
-%
-\begin{example} [{{\rm External forcing}}]
-Consider the system:
-\begin{equation}
-  \dot{x} = JH' (x) + f(t)
-\end{equation}
-where the Hamiltonian $H$ is
-$\left(0,b_{\infty}\right)$-subquadratic, and the
-forcing term is a distribution on the circle:
-\begin{equation}
-  f = \frac{d}{dt} F + f_{o}\ \ \ \ \
-  {\rm with}\ \ F\in L^{2} \left(\bbbr / T\bbbz; \bbbr^{2n}\right)\ ,
-\end{equation}
-where $f_{o} : = T^{-1}\int_{o}^{T} f (t) dt$. For instance,
-\begin{equation}
-  f (t) = \sum_{k\in \bbbn} \delta_{k} \xi\ ,
-\end{equation}
-where $\delta_{k}$ is the Dirac mass at $t= k$ and
-$\xi \in \bbbr^{2n}$ is a
-constant, fits the prescription. This means that the system
-$\dot{x} = JH' (x)$ is being excited by a
-series of identical shocks at interval $T$.
-\end{example}
-%
-\begin{definition}
-Let $A_{\infty} (t)$ and $B_{\infty} (t)$ be symmetric
-operators in $\bbbr^{2n}$, depending continuously on
-$t\in [0,T]$, such that
-$A_{\infty} (t) \le B_{\infty} (t)$ for all $t$.
-
-A Borelian function
-$H: [0,T]\times \bbbr^{2n} \to \bbbr$
-is called
-$\left(A_{\infty} ,B_{\infty}\right)$-{\it subquadratic at infinity}
-if there exists a function $N(t,x)$ such that:
-\begin{equation}
-  H (t,x) = \frac{1}{2} \left(A_{\infty} (t) x,x\right) + N(t,x)
-\end{equation}
-\begin{equation}
-  \forall t\ ,\ \ \ N(t,x)\ \ \ \ \
-  {\rm is\ convex\ with\  respect\  to}\ \ x
-\end{equation}
-\begin{equation}
-  N(t,x) \ge n\left(\left\|x\right\|\right)\ \ \ \ \
-  {\rm with}\ \ n(s)s^{-1}\to +\infty\ \ {\rm as}\ \ s\to +\infty
-\end{equation}
-\begin{equation}
-  \exists c\in \bbbr\ :\ \ \ H (t,x) \le
-  \frac{1}{2} \left(B_{\infty} (t) x,x\right) + c\ \ \ \forall x\ .
-\end{equation}
-
-If $A_{\infty} (t) = a_{\infty} I$ and
-$B_{\infty} (t) = b_{\infty} I$, with
-$a_{\infty} \le b_{\infty} \in \bbbr$,
-we shall say that $H$ is
-$\left(a_{\infty},b_{\infty}\right)$-subquadratic
-at infinity. As an example, the function
-$\left\|x\right\|^{\alpha}$, with
-$1\le \alpha < 2$, is $(0,\varepsilon )$-subquadratic at infinity
-for every $\varepsilon > 0$. Similarly, the Hamiltonian
-\begin{equation}
-H (t,x) = \frac{1}{2} k \left\|k\right\|^{2} +\left\|x\right\|^{\alpha}
-\end{equation}
-is $(k,k+\varepsilon )$-subquadratic for every $\varepsilon > 0$.
-Note that, if $k<0$, it is not convex.
-\end{definition}
-%
-
-\paragraph{Notes and Comments.}
-The first results on subharmonics were
-obtained by Rabinowitz in \cite{2rab}, who showed the existence of
-infinitely many subharmonics both in the subquadratic and superquadratic
-case, with suitable growth conditions on $H'$. Again the duality
-approach enabled Clarke and Ekeland in \cite{2clar:eke:2} to treat the
-same problem in the convex-subquadratic case, with growth conditions on
-$H$ only.
-
-Recently, Michalek and Tarantello (see Michalek, R., Tarantello, G.
-\cite{2mich:tar} and Tarantello, G. \cite{2tar}) have obtained lower
-bound on the number of subharmonics of period $kT$, based on symmetry
-considerations and on pinching estimates, as in Sect.~5.2 of this
-article.
-
-%
-% ---- Bibliography ----
-%
-\begin{thebibliography}{}
-%
-\bibitem[1980]{2clar:eke}
-Clarke, F., Ekeland, I.:
-Nonlinear oscillations and
-boundary-value problems for Hamiltonian systems.
-Arch. Rat. Mech. Anal. 78, 315--333 (1982)
-
-\bibitem[1981]{2clar:eke:2}
-Clarke, F., Ekeland, I.:
-Solutions p\'{e}riodiques, du
-p\'{e}riode donn\'{e}e, des \'{e}quations hamiltoniennes.
-Note CRAS Paris 287, 1013--1015 (1978)
-
-\bibitem[1982]{2mich:tar}
-Michalek, R., Tarantello, G.:
-Subharmonic solutions with prescribed minimal
-period for nonautonomous Hamiltonian systems.
-J. Diff. Eq. 72, 28--55 (1988)
-
-\bibitem[1983]{2tar}
-Tarantello, G.:
-Subharmonic solutions for Hamiltonian
-systems via a $\bbbz_{p}$ pseudoindex theory.
-Annali di Matematica Pura (to appear)
-
-\bibitem[1985]{2rab}
-Rabinowitz, P.:
-On subharmonic solutions of a Hamiltonian system.
-Comm. Pure Appl. Math. 33, 609--633 (1980)
+\bibitem {url} 
+Vários autores, SWI-Prolog,\\
+\url{http://www.swi-prolog.org}\\
+\bibitem {url} 
+Vários autores, The Prolog Library,\\
+\url{https://sicstus.sics.se/sicstus/docs/4.3.0/html/sicstus/The-Prolog-Library.html}\\
+\bibitem {url} 
+Pierre Deransart, AbdelAli Ed-Dbali, Laurent Cervoni, Prolog The Standard: Reference Manual, Springer, 2007\\
 
 \end{thebibliography}
 \clearpage
-\addtocmark[2]{Author Index} % additional numbered TOC entry
-\renewcommand{\indexname}{Author Index}
-\printindex
-\clearpage
-\addtocmark[2]{Subject Index} % additional numbered TOC entry
-\markboth{Subject Index}{Subject Index}
-\renewcommand{\indexname}{Subject Index}
-\input{subjidx.ind}
+
+\section*{Anexo}
+A totalidade do código desenvolvido encontra-se na pasta \textit{codigo}.
+
+
 \end{document}

@@ -18,30 +18,52 @@ translateDay(4, 'Sexta').
 
 % Examplesof schedules
 % List with a schedule in the form Monday, Tuesday, Wednesday, Thursday, Friday, followed by list with the disciplines
+% 1 turma 3 disciplinas
 schedule1([
             [[1, 2, 3], [1, 2], [1, 2, 3], [1, 3], [2, 3]]-[1, 2, 3]
             ]).
 
+% 2 turmas com diferente numero de disciplinas
 schedule2([
+            [[1, 2], [1, 2], [1, 2], [1], [2]]-[1, 2],
+            [[4, 2], [4, 2, 5], [4, 2, 5], [2, 5], [4, 5]]-[2, 4, 5]
+            ]).
+
+% 2 turmas com igual numero de disciplinas
+schedule3([
             [[1, 2, 3], [1, 2], [1, 2, 3], [1, 3], [2, 3]]-[1, 2, 3],
+            [[1, 2], [1, 2, 4], [1, 2, 4], [2, 4], [1, 4]]-[1, 2, 4]
+            ]).
+
+% 6 turmas com diferente numero de disciplinas - testar com 30 e 90 dias
+% tempo de processamento aumenta mais rapido com aumento de numero de dias que com aumento do numero de disciplinas
+schedule4([
+            [[1, 2], [1, 2], [1, 2], [1], [2]]-[1, 2],
+            [[4, 2], [4, 2, 5], [4, 2, 5], [2, 5], [4, 5]]-[2, 4, 5],
+            [[4, 2], [4, 2, 5], [4, 2, 5], [2, 5], [4, 5]]-[2, 4, 5],
+            [[4, 2], [4, 2, 5], [4, 2, 5], [2, 5], [4, 5]]-[2, 4, 5],
+            [[4, 2], [4, 2, 5], [4, 2, 5], [2, 5], [4, 5]]-[2, 4, 5],
             [[4, 2], [4, 2, 5], [4, 2, 5], [2, 5], [4, 5]]-[2, 4, 5]
             ]).
 
 % Exemplo de parâmetros para correr o programa
+% Numero de dias, numero maximo de tpcs por dia, percenagem tpc por disciplina por periodo, horários, resultados
 % run(30, 1, 2, 2, 2, X).
 
 % Starts the program
 run(Days, FreeTPCDay, NumMaxTPCDay, RatioTPC, NumMaxTestsWeek, ClassResults):-
     statistics(runtime, [Start|_]),
-    schedule2(Schedules),
+    schedule3(Schedules),
     solveClasses(Days, FreeTPCDay, NumMaxTPCDay, RatioTPC, NumMaxTestsWeek, Schedules, ClassResults, [], FinalResult),
     testsCloseDays(Days, Schedules, ClassResults, Test1, Test2),
-    labeling([ffc, down, step, minimize(Test1), minimize(Test2), time_out(120000, _)], FinalResult),
+    sum(Test1, #=, ResultTest1),
+    sum(Test2, #=, ResultTest2),
+    labeling([ffc, down, step, minimize(ResultTest1), minimize(ResultTest2), time_out(120000, _)], FinalResult),
     statistics(runtime, [End|_]),
     Time is End - Start,
     displayResults(Days, Schedules, ClassResults),
     format('~nRuntime: ~3d seconds.~n', [Time]), nl, nl.
-
+    
 solveClasses(_, _, _, _, _, [], [], FinalResult, FinalResult).
 
 solveClasses(Days, FreeTPCDay, NumMaxTPCDay, RatioTPC, NumMaxTestsWeek, [Schedule-DisciplinesList|Ts], [ClassResult|Hs], CurrentResult, FinalResult):-
@@ -56,10 +78,10 @@ solver(Days, FreeTPCDay, NumMaxTPCDay, RatioTPC, NumMaxTestsWeek, DisciplinesLis
   maxNumTPCDay(0, Days, ClassResult, NumMaxTPCDay),                     % Creates a constraint for maximum TPC in a day
   maxTPCPeriod(Days, RatioTPC, Schedule, ClassResult),                  % Constraint for maximum number of TPCs per period based on ratio                       
   maxTestsPerWeek(0, Days, NumMaxTestsWeek, ClassResult),               % Each class cant have more than NumMaxTestsWeek tests per week
-  twoTestsDisciplinePeriod(ClassResult),
-  twoTestsDifferentPeriod(Days, ClassResult),                          % Each class must have 2 tests per period at 2 specific evaluation moments
+  twoTestsDisciplinePeriod(ClassResult),                                % Each class must have 2 tests per period
+  twoTestsDifferentPeriod(Days, ClassResult),                           % Each class must have 2 tests per period at 2 specific evaluation moments
   testsConsecutiveDays(0, Days, ClassResult),                           % Each class cant have more than 1 test in 2 consecutive days
-  getAllTPCsAndTests(ClassResult, [], Result).                
+  getAllTPCsAndTests(ClassResult, [], Result).                                          
 
 % Creates a list of Tests and TPCs for each discipline
 initDisciplines(_, _, [],[]).
@@ -99,7 +121,6 @@ getAllTPCsAndTests([_-TPCs-Tests|Hs], CurrentResult, Result):-
     append(TPCs, Tests, List),
     append(List, CurrentResult, NewResult),
     getAllTPCsAndTests(Hs, NewResult, Result).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% TPCs restrictions %%%%%%%%%%%%%%%%%%%%%%%%%%
 % Every class must have a free day per week free of TPC, remaining the same untile the end of the period
@@ -276,49 +297,42 @@ getDayTestList(Day, [_-_-Tests|Hs], CurrentResult, Result):-
     append(CurrentResult, [TestDay], NewResult),
     getDayTestList(Day, Hs, NewResult, Result).
 
-
-
+% Students from different classes must have the test for the same discipline in closing days
 testsCloseDays(Days, Schedules, Classes, Test1, Test2):-
     getDisciplineList(Schedules, [], Result),
-    sort(Result, OrderedResult),
+    sort(Result, DisciplineList),                       % list with all disciplines created
     TestMomentDuration is div(Days, 4),
     StartFirstTestMoment is TestMomentDuration,
     StartSecondTestMoment is 3*TestMomentDuration,
-    getTestLists(OrderedResult, StartFirstTestMoment, TestMomentDuration, StartSecondTestMoment, Classes, [], Test1, [], Test2).
+    getTestsCloseAll(DisciplineList, Classes, TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, Test1, Test2).
 
+getTestsCloseAll([], _, _, _, _, [], []).
 
+getTestsCloseAll([Discipline|DisciplineList], Classes, TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, [Test1|Tests1], [Test2|Tests2]):-
+    getDisciplineCloseDays(Discipline, Classes, TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, CloseDaysTest1, CloseDaysTest2),
+    write(CloseDaysTest2),
+    sum(CloseDaysTest1, #=, Test1),
+    sum(CloseDaysTest2, #=, Test2),
+    getTestsCloseAll(DisciplineList, Classes, TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, Tests1, Tests2).
 
+getDisciplineCloseDays(_, [], _, _, _, [], []).
 
+getDisciplineCloseDays(_, [_], _, _, _, [], []).
 
-getTestLists(_, _, _, _, [], Test1, Test1, Test2, Test2).
+getDisciplineCloseDays(Discipline, [Class1, Class2 | Classes], TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, [FirstTestDiff|CloseDaysTest1], [SecondTestDiff|CloseDaysTest2]):-
+    member(Discipline-_-TestsClass1, Class1),
+    member(Discipline-_-TestsClass2, Class2),!,    
+    sublists(TestsClass1, StartFirstTestMoment, TestMomentDuration, FirstPeriodClass1),            % Creates sublists with the possible days for each moment of a test
+    sublists(TestsClass1, StartSecondTestMoment, TestMomentDuration, SecondPeriodClass1),
+    sublists(TestsClass2, StartFirstTestMoment, TestMomentDuration, FirstPeriodClass2),
+    sublists(TestsClass2, StartSecondTestMoment, TestMomentDuration, SecondPeriodClass2),
+    element(FirstTestClass1, FirstPeriodClass1, 1),
+    element(FirstTestClass2, FirstPeriodClass2, 1),
+    element(SecondTestClass1, SecondPeriodClass1, 1),
+    element(SecondTestClass2, SecondPeriodClass2, 1),
+    FirstTestDiff #= abs(FirstTestClass1-FirstTestClass2),
+    SecondTestDiff #= abs(SecondTestClass1-SecondTestClass2),
+    getDisciplineCloseDays(Discipline, [Class2 | Classes], TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, CloseDaysTest1, CloseDaysTest2).
 
-getTestLists(Discipline, StartFirstTestMoment, TestMomentDuration, StartSecondTestMoment, [_-_-TestA1, _-_-TestB1|Hs], CurrentTest1, Test1, CurrentTest2, Test2):-
-    element(Day1, [1, 2, 3], 1),
-    element(Day2, [1, 2, 3], 1),    
-    element(Day3, [1, 2, 3], 1),
-    element(Day4, [1, 2, 3], 1),
-    DayTest1 #= abs(Day2 - Day1),
-    DayTest2 #= abs(Day4 - Day3),
-    append(CurrentTest1, [DayTest1], NewTest1),
-    append(CurrentTest1, [DayTest2], NewTest2),
-    getTestLists(StartFirstTestMoment, TestMomentDuration, StartSecondTestMoment, Hs, NewTest1, Test1, NewTest2, Test2).
-
-
-% Get a discipline list
-getDisciplineList([], Result, Result).
-
-getDisciplineList([_-DisciplinesList|Ts], CurrentResult, Result):-
-    append(CurrentResult, DisciplinesList, NewResult),
-    getDisciplineList(Ts, NewResult, Result).
-
-
-
-
-
-    %woDifferentTestMoments(StartFirstTestMoment, TestMomentDuration, StartSecondTestMoment, ClassResult).
-
-%twoDifferentTestMoments(_, _, _, []).
-
-%twoDifferentTestMoments(StartFirstTestMoment, TestMomentDuration, StartSecondTestMoment, [_-_-Tests|Ts]):-
-    %sublists(Tests, StartFirstTestMoment, TestMomentDuration, FirstResult),
-    %sublists(Tests, StartSecondTestMoment, TestMomentDuration, SecondResult),
+getDisciplineCloseDays(Discipline, [_, Class2 | Classes], TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, CloseDaysTest1, CloseDaysTest2):-
+    getDisciplineCloseDays(Discipline, [Class2 | Classes], TestMomentDuration, StartFirstTestMoment, StartSecondTestMoment, CloseDaysTest1, CloseDaysTest2).
